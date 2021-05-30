@@ -1,23 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
+import Home from './routes/home';
+import Questions from './routes/questions';
+
+import { Switch, Route } from 'react-router-dom'
+import PrivateRoute from './routes/PrivateRoute';
+import AddQuestion from './routes/addQuestion';
+import Question from './routes/question';
+import Leaderboard from './routes/leaderboard';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Switch >
+        <Route exact path='/' component={Home} />
+        <Route exact path='/leaderboard' component={Leaderboard} />
+        <PrivateRoute path='/questions/add' component={AddQuestion} />
+        <PrivateRoute path='/questions/:id' component={Question} />
+        <PrivateRoute path='/questions' component={Questions} />
+      </Switch>
     </div>
   );
 }
