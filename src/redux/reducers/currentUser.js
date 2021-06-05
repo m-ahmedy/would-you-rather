@@ -1,5 +1,12 @@
-const initialState = ''
+import { SET_CURRENT_USER } from "../actions/actionIdentifiers";
+
+const initialState = 'johndoe'
 
 export default function currentUser(state = initialState, action) {
-    return state
+    switch (action.type) {
+        case SET_CURRENT_USER:
+            return action.payload.currentUser
+        default:
+            return state
+    }
 }

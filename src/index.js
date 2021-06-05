@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
+import { BrowserRouter } from 'react-router-dom';
 
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import reducer from './redux/reducers';
-import { composeWithDevTools } from 'redux-devtools-extension'
 import middleware from './redux/middleware';
 
 const store = createStore(reducer, composeWithDevTools(middleware))
@@ -15,7 +16,9 @@ const store = createStore(reducer, composeWithDevTools(middleware))
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
