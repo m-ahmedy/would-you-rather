@@ -1,18 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { userLogin } from '../redux/actions/actionCreators'
 
 function Home(props) {
-    const { isUserSelected, users } = props
+    const { isUserSelected, users, setCurrentUser } = props
+    
+    function handleUserSelect(userId) {
+        setCurrentUser(userId)
+    }
+
     return (
         <div>
             Hello from Home Page
-            <div>
-                {JSON.stringify(users)}
-            </div>
-            <div>
-
-                {isUserSelected ? 'True' : 'False'}
-            </div>
+            <ul>
+                {users.map(user => (
+                    <li key={user.id}>
+                        <button onClick={e => handleUserSelect(user.id)}>Login as {user.name}</button>
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 }
@@ -32,4 +38,8 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Home)
+const mapDispatchToProps = (dispatch) => ({
+    setCurrentUser: (userId) => dispatch(userLogin(userId))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

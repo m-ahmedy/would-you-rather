@@ -1,16 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { questionAnswer } from '../redux/actions/actionCreators'
 
 function QuestionDetails(props) {
-    const { currentUser, isPresent, question } = props
+    const { currentUser, isPresent, question, answerQuestion } = props
 
     let ui = null
+
+    function answerHandler (option) {
+        answerQuestion(currentUser.id, question.id, option)
+    }
 
     if (isPresent) {
         ui = <div>
             <h3>{question.author.name} asks</h3>
             <p>Would you rather?</p>
-            <button disabled={question.answerState !== 0}>
+            <button
+                onClick={e => answerHandler('optionOne')}
+                disabled={question.answerState !== 0}
+            >
                 {question.options.optionOne}
                 {
                     question.answerState !== 0 && (
@@ -18,7 +26,10 @@ function QuestionDetails(props) {
                     )
                 }
             </button>
-            <button disabled={question.answerState !== 0}>
+            <button
+                onClick={e => answerHandler('optionTwo')}
+                disabled={question.answerState !== 0}
+            >
                 {question.options.optionTwo}
                 {
                     question.answerState !== 0 && (
@@ -102,4 +113,8 @@ const mapStateToProps = ({ users, questions, currentUser }, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps)(QuestionDetails)
+const mapDispatchToProps = (dispatch) => ({
+    answerQuestion: (userId, questionId, selectedOption) => dispatch(questionAnswer(userId, questionId, selectedOption))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionDetails)
