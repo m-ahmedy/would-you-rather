@@ -1,12 +1,13 @@
-import { combineReducers } from 'redux'
-import users from './users'
-import questions from './questions'
-import currentUser from './currentUser'
+import currentUser from "./currentUser";
+import users from "./users";
+import questions from "./questions";
+
+import { combineReducers } from "redux";
 
 const reducer = combineReducers({
+    currentUser,
     users,
-    questions,
-    currentUser
+    questions
 })
 
 export default reducer

@@ -1,22 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux'
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import { BrowserRouter } from 'react-router-dom';
 
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import reducer from './redux/reducers'
-import middlewares from './redux/middlewares';
+import reducer from './redux/reducers';
+import middleware from './redux/middleware';
 
-const store = createStore(reducer, composeWithDevTools(middlewares))
+const store = createStore(reducer, composeWithDevTools(middleware))
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <App />
       </BrowserRouter>
     </Provider>
