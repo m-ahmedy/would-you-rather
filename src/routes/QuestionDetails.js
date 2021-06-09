@@ -1,8 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { answerQuestion } from '../redux/actions/actionCreators'
 
 function QuestionDetails(props) {
-    const { isPresent, userInfo, question } = props
+    const { isPresent, userInfo, question, onAnswer } = props
+
+    const answerHandler = (selectedOption) => {
+        onAnswer(question.id, userInfo.id, selectedOption)
+    }
 
     let ui = null
     if (isPresent) {
@@ -12,16 +17,26 @@ function QuestionDetails(props) {
                 <p>
                     Would you rather {' '}
                     <button
-                        disabled={false}
-                        onClick={e => console.log('Selected: ', question.optionOne.text)}
+                        disabled={question.answerState !== 0}
+                        onClick={e => answerHandler('optionOne')}
                     >
-                        {question.optionOne.text}</button>
+                        {question.optionOne.text}
+                        {
+                            question.answerState !== 0
+                            && <p>{question.answerStatitistics.optionOne}%</p>
+                        }
+                    </button>
                     {' '}or{' '}
                     <button
-                        disabled={false}
-                        onClick={e => console.log('Selected: ', question.optionTwo.text)}
+                        disabled={question.answerState !== 0}
+                        onClick={e => answerHandler('optionTwo')}
                     >
-                        {question.optionTwo.text}</button>
+                        {question.optionTwo.text}
+                        {
+                            question.answerState !== 0
+                            && <p>{question.answerStatitistics.optionTwo}%</p>
+                        }
+                    </button>
                 </p>
             </div>
         )
@@ -98,4 +113,11 @@ const mapStateToProps = ({ users, questions, currentUser }, { match: { params } 
 
     return { userInfo, question, isPresent }
 }
-export default connect(mapStateToProps)(QuestionDetails)
+
+const mapDispatchToProps = (dispatch) => ({
+    onAnswer(questionId, userId, selectedOption) {
+        return dispatch(answerQuestion(questionId, userId, selectedOption))
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionDetails)

@@ -1,3 +1,4 @@
+import { ADD_QUESTION, ANSWER_QUESTION } from "../actions/actionIdentifiers";
 
 const initialState = {
     "8xf0y6ziyjabvozdd253nd": {
@@ -81,5 +82,26 @@ const initialState = {
 }
 
 export default function questions(state = initialState, action) {
-    return state
+    switch (action.type) {
+        case ADD_QUESTION:
+            return {
+                ...state,
+                [action.payload.question.id]: action.payload.question
+            }
+
+        case ANSWER_QUESTION:
+            const { questionId, userId, selectedOption } = action.payload
+            return {
+                ...state,
+                [questionId]: {
+                    ...state[questionId],
+                    [selectedOption]: {
+                        ...state[questionId][selectedOption],
+                        votes: [...state[questionId][selectedOption].votes, userId]
+                    }
+                }
+            }
+        default:
+            return state
+    }
 }

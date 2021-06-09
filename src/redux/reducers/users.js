@@ -1,3 +1,4 @@
+import { ADD_QUESTION, ANSWER_QUESTION } from '../actions/actionIdentifiers'
 
 const initialState = {
     sarahedo: {
@@ -36,5 +37,31 @@ const initialState = {
 }
 
 export default function users(state = initialState, action) {
-    return state
+    switch (action.type) {
+        case ADD_QUESTION:
+            const q = action.payload.question
+            return {
+                ...state,
+                [q.author]: {
+                    ...state[q.author],
+                    questions: [...state[q.author].questions, q.id]
+                }
+            }
+
+        case ANSWER_QUESTION:
+            const { questionId, userId, selectedOption } = action.payload
+            return {
+                ...state,
+                [userId]: {
+                    ...state[userId],
+                    answers: {
+                        ...state[userId].answers,
+                        [questionId]: selectedOption
+                    }
+                }
+            }
+
+        default:
+            return state
+    }
 }
