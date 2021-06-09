@@ -15,7 +15,7 @@ function App(props) {
     <div className="App">
       <Switch>
         <Route exact path='/' component={Home}/>
-        <Route path='/leaderboard' component={Leaderboard} />
+        <PrivateRoute path='/leaderboard' component={Leaderboard} />
         <PrivateRoute path='/questions/add' component={AddQuestion} />
         <PrivateRoute path='/questions/:id' component={QuestionDetails} />
         <PrivateRoute path='/questions' component={Questions} />
